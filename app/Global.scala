@@ -1,5 +1,6 @@
 import com.typesafe.scalalogging.slf4j.LazyLogging
 import dao.ShipsDao
+import models.JsonFormats
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.{Application, GlobalSettings, Mode}
 import play.modules.reactivemongo.ReactiveMongoApi
@@ -20,7 +21,7 @@ object Global extends GlobalSettings with LazyLogging {
 
       Try {
         val is = app.resourceAsStream("data/sample_data.json").get
-        ShipsDao.parseSampleData(is)
+        JsonFormats.parseSampleData(is)
       } map { ships =>
         for {_ <- dao.removeAll()
              _ <- dao.ensure(ShipsDao.requiredIndexes)

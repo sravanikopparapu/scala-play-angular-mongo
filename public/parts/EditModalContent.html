@@ -1,0 +1,87 @@
+<div>
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()"><span
+                aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+
+        <h4 class="modal-title" ng-hide="isEditMode">Create New Ship Info</h4>
+        <h4 class="modal-title" ng-show="isEditMode">Edit Ship Info</h4>
+    </div>
+
+    <div class="modal-body">
+        <div class="row">
+
+            <div class="col-md-2 text-right">
+                <label>Name</label>
+            </div>
+
+            <div class="col-md-10">
+                <input id="name" class="form-control" type='text' value=""
+                       placeholder="ship name"
+                       ng-model="newItem.name" required ng-disabled="isEditMode">
+            </div>
+        </div>
+
+        <div class="row voffset1">
+            <div class="col-md-2 text-right">
+                <label>Width</label>
+            </div>
+
+            <div class="col-md-10">
+                <input id="width" class="form-control" type='number' value=""
+                       placeholder="0"
+                       ng-model="newItem.width" required>
+            </div>
+        </div>
+
+        <div class="row voffset1">
+            <div class="col-md-2 text-right">
+                <label>Length</label>
+            </div>
+            <div class="col-md-10">
+                <input id="len" class="form-control" type='number' value=""
+                       placeholder="0"
+                       ng-model="newItem.length" required>
+            </div>
+        </div>
+
+        <div class="row voffset1">
+            <div class="col-md-2 text-right">
+                <label>Draft</label>
+            </div>
+            <div class="col-md-10">
+                <input id="draft" class="form-control" type='number' value=""
+                       placeholder="0"
+                       ng-model="newItem.draft" required>
+            </div>
+        </div>
+
+        <div class="row voffset1">
+            <div class="col-md-2 text-right">
+                <label>Coordinates</label>
+            </div>
+
+            <div class="col-md-5">
+                LAT <input id="lat" class="form-control" type='number' value=""
+                           placeholder="lat"
+                           ng-model="newItem.lastSeen.lat" required>
+            </div>
+
+            <div class="col-md-5">
+                LON <input id="lon" class="form-control" type='number' value=""
+                           placeholder="lon"
+                           ng-model="newItem.lastSeen.lon" required>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+
+    <button type="button" class="btn btn-primary" ng-disabled="isInvalidValidPath()" ng-hide="isEditMode"
+            ng-click="ok()">Save
+    </button>
+    <button type="button" class="btn btn-primary" ng-show="isEditMode" ng-click="ok()">Update
+    </button>
+</div>

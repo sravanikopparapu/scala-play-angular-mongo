@@ -9,8 +9,10 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json._
 import play.api.mvc._
 import play.modules.reactivemongo.ReactiveMongoApi
+import reactivemongo.core.errors.DatabaseException
 
 import scala.concurrent.Future
+import scala.util.control.NonFatal
 
 @Singleton
 class Ships @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends Controller with ShipsDao {
@@ -20,6 +22,11 @@ class Ships @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends Controller
     request.body.validate[Ship].map { ship =>
       save(ship) map { _ =>
         Created
+      } recover {
+        case e: DatabaseException if e.getMessage().contains("E11000 duplicate key") =>
+          BadRequest("Ship with same name already exists")
+        case NonFatal(e) =>
+          InternalServerError(e.getMessage)
       }
     }.getOrElse(Future.successful(BadRequest("invalid json")))
   }
@@ -44,8 +51,10 @@ class Ships @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends Controller
 
   def findShips(count: Option[Int] = None, page: Option[Int] = None) = Action.async {
 
-    findMany(itemsPerPageOpt = count, pageNumOpt = page) map { ships =>
-      Ok(Json.arr(ships))
+    countTotal() flatMap { cnt =>
+      findMany(itemsPerPageOpt = count, pageNumOpt = page) map { ships =>
+        Ok(Json.obj("total" -> cnt, "results" -> Json.toJson(ships)))
+      }
     }
   }
 

@@ -12,17 +12,20 @@
         <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/main.css")'>
 
         <script src='@routes.Assets.at("lib/jquery/jquery.min.js")'></script>
+        <script src='@routes.Assets.at("lib/lodash/lodash.js")'></script>
         <script src='@routes.Assets.at("lib/angularjs/angular.js")' type="text/javascript"></script>
         <script src='@routes.Assets.at("lib/angularjs/angular-route.js")' type="text/javascript"></script>
-        <script src='@routes.Assets.at("lib/angular-ui-bootstrap/ui-bootstrap-tpls.js")' type="text/javascript"></script>
+        <script src='@routes.Assets.at("lib/angularjs/angular-resource.js")' type="text/javascript"></script>
+        <script src='@routes.Assets.at("lib/angular-bootstrap/ui-bootstrap-tpls.js")' type="text/javascript"></script>
+        <script src='@routes.Assets.at("lib/ng-table/dist/ng-table.js")' type="text/javascript"></script>
 
-        <script src='@routes.Assets.at("js/controllers/main.js")'></script>
-
+        <script src='@routes.Assets.at("javascripts/controllers/main.js")'></script>
     </head>
 
-    <body ng-app="shipLocator" ng-controller="MainController">
+    <body ng-app="shipLocator" ng-controller="MainController as mc">
 
         <div class="container">
+
             <div class="row voffset2 page-header">
                 <div class="col-md-12">
                     <h3>
@@ -30,6 +33,31 @@
                     </h3>
                 </div>
 
+            </div>
+
+            <alert ng-repeat="alert in mc.alerts" type="{{alert.type}}" close="mc.closeAlert($index)">{{alert.msg}}</alert>
+
+            <div class="row voffset3">
+                <button type="button" class="btn btn-default" ng-click="mc.editRow(false, row)">Create</button>
+            </div>
+
+            <div class="voffset3">
+
+                <table ng-table="mc.tableParams" class="table table-bordered table-striped table-condensed table-hover">
+                    <tr ng-repeat="row in $data track by row.name">
+                        <td data-title="'Name'" >{{row.name}}</td>
+                        <td data-title="'Width'" >{{row.width}}</td>
+                        <td data-title="'Length'" >{{row.length}}</td>
+                        <td data-title="'Draft'">{{row.draft}}</td>
+                        <td data-title="'Location LAT:LON'">{{row.lastSeen.lat}}:{{row.lastSeen.lon}}</td>
+
+                        <td data-title="'Action'" class="col-sm-1 text-center">
+                            <button class="btn btn-default btn-sm" ng-click="mc.editRow(true, row)"><span class="glyphicon glyphicon-pencil"></span></button>
+                            <button class="btn btn-default btn-sm" ng-click="mc.onDelete(row)"><span class="glyphicon glyphicon-trash"></span></button>
+                        </td>
+
+                    </tr>
+                </table>
             </div>
 
         </div>

@@ -1,8 +1,6 @@
 package dao
 
-import java.io.File
-
-import models.{Location, Ship}
+import models.{JsonFormats, Location, Ship}
 import org.junit.runner.RunWith
 import org.specs2.mutable._
 import org.specs2.runner.JUnitRunner
@@ -75,7 +73,7 @@ class ShipDaoIntegrationSpec extends Specification {
     "parse and insert data" in {
       val is = app.resourceAsStream("data/sample_data.json").get
 
-      val ships = ShipsDao.parseSampleData(is)
+      val ships = JsonFormats.parseSampleData(is)
       ships.length === 296
       Future.sequence(ships.map(dao.save)).force
       ok
