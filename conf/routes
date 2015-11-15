@@ -1,0 +1,17 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+#
+# Note: @controllers syntax signifies the actual controller instance, retrieved via GlobalSettings.getController().
+# ~~~~
+
+# Single endpoint for serving AngularJS
+GET           /                    @controllers.Application.index
+
+# Ship management API
+GET           /ships               @controllers.Ships.findShips(limit: Option[Int])
+POST          /ship                @controllers.Ships.createShip
+PUT           /ship                @controllers.Ships.updateShip
+DELETE        /ship/:name          @controllers.Ships.deleteShip(name)
+
+# Map static resources from the /public folder to the /assets URL path
+GET           /assets/*file        controllers.Assets.versioned(path="/public", file: Asset)
