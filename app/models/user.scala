@@ -1,9 +1,9 @@
 package models
 
 case class Ship(name: String,
-                width: Float, //in meters
-                length: Float, //in meters
-                draft: Float, //in meters
+                width: Double, //in meters
+                length: Double, //in meters
+                draft: Double, //in meters
                 lastSeen: Location
                )
 

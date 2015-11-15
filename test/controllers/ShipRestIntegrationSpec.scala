@@ -1,5 +1,6 @@
 package controllers
 
+import models.JsonFormats._
 import models.{Location, Ship}
 import org.junit.runner.RunWith
 import org.specs2.mutable._
@@ -8,7 +9,6 @@ import play.api.libs.json._
 import play.api.test.Helpers._
 import play.api.test._
 import utils.TestUtils._
-import models.JsonFormats._
 
 @RunWith(classOf[JUnitRunner])
 class ShipRestIntegrationSpec extends Specification {
@@ -50,19 +50,7 @@ class ShipRestIntegrationSpec extends Specification {
       }
     }
 
-    /*"fail updating a non valid json" in {
-      running(FakeApplication()) {
-        val request = FakeRequest.apply(PUT, "/user/Jack/London").withJsonBody(Json.obj(
-          "firstName" -> "Jack",
-          "lastName" -> "London",
-          "age" -> 27))
-        val response = route(request)
-        response.isDefined mustEqual true
-        val result = Await.result(response.get, timeout)
-        contentAsString(response.get) mustEqual "invalid json"
-        result.header.status mustEqual BAD_REQUEST
-      }
-    }*/
+    /// etc etc etc
 
   }
 }
