@@ -1,11 +1,18 @@
-## Ship Locator
+### Ship Locator
 ===========
 The project is an exercise of using Play2/Scala/ReactiveMongo/AngularJs/Bootstrap
 
-Based on https://github.com/lashford/modern-web-template
+Based on (https://github.com/lashford/modern-web-template)
 
+#### To run:
 
-## Screenshots
+clone the project, and execute from the project root:
+
+```
+ ./activator clean run
+```
+
+### Screenshots
 
 #### Main window
 ![Celebrities List](./screenshots/screen1.png)
@@ -17,6 +24,6 @@ Based on https://github.com/lashford/modern-web-template
 ![Editing a Celebrity](./screenshots/screen2.png)
 
 ## TODO:
-1. Add data verification
-2. Make possible updating name (currently name is used as primary key for simplicity)
-3. Make possible filtering the table by ship name, change ordering etc
+- Add data verification
+- Make possible updating name (currently name is used as primary key for simplicity)
+- Make possible filtering the table by ship name, change ordering etc

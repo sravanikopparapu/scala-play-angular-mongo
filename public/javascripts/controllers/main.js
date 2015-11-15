@@ -130,9 +130,16 @@ app.controller("MainController", ["NgTableParams", "$resource", "$http", "$scope
         };
 
         self.delRow = function (row) {
-            $http.delete("/ship/" + row.name);
-
-            self.refresh()
+            $http.delete("/ship/" + row.name).success(function (data) {
+                self.refresh()
+            }).error(function (data, status) {
+                if (status > 0) {
+                    self.addDangerAlert(status + " : " + data)
+                }
+                else {
+                    self.addDangerAlert("Connection to the api is not available")
+                }
+            });
         };
 
         // alerts
