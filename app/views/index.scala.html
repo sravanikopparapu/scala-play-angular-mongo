@@ -32,14 +32,15 @@
                         <span>Ship Locator</span>
                     </h3>
                 </div>
-
             </div>
 
             <alert ng-repeat="alert in mc.alerts" type="{{alert.type}}" close="mc.closeAlert($index)">{{alert.msg}}</alert>
 
-            <div class="row voffset3">
-                <button type="button" class="btn btn-default" ng-click="mc.editRow(false, row)">Create</button>
+            <div class="voffset3">
+                <button type="button" class="btn btn-sm btn-default" ng-click="mc.editRow(false, row)">Create Ship Info</button>
             </div>
+
+            <hr>
 
             <div class="voffset3">
 
@@ -49,7 +50,7 @@
                         <td data-title="'Width'" >{{row.width}}</td>
                         <td data-title="'Length'" >{{row.length}}</td>
                         <td data-title="'Draft'">{{row.draft}}</td>
-                        <td data-title="'Location LAT:LON'">{{row.lastSeen.lat}}:{{row.lastSeen.lon}}</td>
+                        <td data-title="'Location LAT:LON'">{{row.lastSeen.lat}} : {{row.lastSeen.lon}}</td>
 
                         <td data-title="'Action'" class="col-sm-1 text-center">
                             <button class="btn btn-default btn-sm" ng-click="mc.editRow(true, row)"><span class="glyphicon glyphicon-pencil"></span></button>
