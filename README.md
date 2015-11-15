@@ -1,8 +1,6 @@
 ### Ship Locator
-===========
-The project is an exercise of using Play2/Scala/ReactiveMongo/AngularJs/Bootstrap
 
-Based on (https://github.com/lashford/modern-web-template)
+The project is an exercise of using Play2/Scala/ReactiveMongo/AngularJs/Bootstrap
 
 #### To run:
 
