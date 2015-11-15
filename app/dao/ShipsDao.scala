@@ -1,6 +1,6 @@
 package dao
 
-import java.io.{File, FileInputStream}
+import java.io.{InputStream, File, FileInputStream}
 
 import com.typesafe.scalalogging.slf4j.LazyLogging
 import models.JsonFormats._
@@ -10,6 +10,7 @@ import play.api.libs.json.{DefaultReads, JsArray, JsObject, Json}
 import play.modules.reactivemongo.json._
 import play.modules.reactivemongo.json.collection.JSONCollection
 import play.modules.reactivemongo.{MongoController, ReactiveMongoComponents}
+import reactivemongo.api.QueryOpts
 import reactivemongo.api.commands.{UpdateWriteResult, WriteResult}
 import reactivemongo.api.indexes.{Index, IndexType}
 
@@ -25,9 +26,9 @@ object ShipsDao extends DefaultReads {
   protected def hasName(name: String) = Json.obj(Name -> name)
 
 
-  def parseSampleData(resource: File): Seq[Ship] = {
+  def parseSampleData(resource: InputStream): Seq[Ship] = {
 
-    Json.parse(new FileInputStream(resource)).as[JsObject].value("rows").as[JsArray].value.
+    Json.parse(resource).as[JsObject].value("rows").as[JsArray].value.
       map(_.as[JsObject].value).flatMap { v =>
       Try {
         Ship(
@@ -70,11 +71,16 @@ trait ShipsDao extends MongoController with ReactiveMongoComponents with LazyLog
 
   def findMany(query: JsObject = Json.obj(),
                sort: JsObject = Json.obj(Name -> 1),
-               limit: Option[Int] = None): Future[List[Ship]] = {
-    collection.find(query).
+               itemsPerPageOpt: Option[Int] = None,
+               pageNumOpt: Option[Int] = None): Future[List[Ship]] = {
+
+    val itemsPerPage = itemsPerPageOpt.getOrElse(Int.MaxValue)
+    val pageNum = pageNumOpt.getOrElse(1) - 1
+
+    collection.find(query).options(QueryOpts(skipN = pageNum * itemsPerPage, batchSizeN = itemsPerPage)).
       sort(sort).
       cursor[Ship](connection.options.readPreference).
-      collect[List](limit.getOrElse(Int.MaxValue))
+      collect[List](itemsPerPage)
   }
 
   def ensure(required: Seq[Index]) = {

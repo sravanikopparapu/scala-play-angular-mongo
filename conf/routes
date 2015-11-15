@@ -13,7 +13,7 @@ POST          /ship                @controllers.Ships.createShip
 PUT           /ship                @controllers.Ships.updateShip
 DELETE        /ship/:name          @controllers.Ships.deleteShip(name)
 
-GET           /ships               @controllers.Ships.findShips(limit: Option[Int])
+GET           /ships               @controllers.Ships.findShips(count: Option[Int], page:Option[Int])
 
 # Map static resources from the /public folder to the /assets URL path
 GET           /assets/*file        controllers.Assets.at(path="/public", file)

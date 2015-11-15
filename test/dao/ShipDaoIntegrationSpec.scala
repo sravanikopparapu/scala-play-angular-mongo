@@ -7,11 +7,11 @@ import org.junit.runner.RunWith
 import org.specs2.mutable._
 import org.specs2.runner.JUnitRunner
 import play.api.inject.DefaultApplicationLifecycle
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.test.FakeApplication
 import play.modules.reactivemongo.{DefaultReactiveMongoApi, ReactiveMongoApi}
 import reactivemongo.core.errors.DatabaseException
 import utils.TestUtils._
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 import scala.concurrent.Future
 
@@ -73,9 +73,9 @@ class ShipDaoIntegrationSpec extends Specification {
     }
 
     "parse and insert data" in {
-      val data = new File(app.resource("data/sample_data.json").get.toURI)
+      val is = app.resourceAsStream("data/sample_data.json").get
 
-      val ships = ShipsDao.parseSampleData(data)
+      val ships = ShipsDao.parseSampleData(is)
       ships.length === 296
       Future.sequence(ships.map(dao.save)).force
       ok
@@ -83,6 +83,10 @@ class ShipDaoIntegrationSpec extends Specification {
 
     "find all ships" in {
       dao.findMany().force.size === 296
+      dao.findMany(itemsPerPageOpt = Option(20)).force.size === 20
+      dao.findMany(itemsPerPageOpt = Option(20), pageNumOpt = Some(1)).force.size === 20
+      dao.findMany(itemsPerPageOpt = Option(20), pageNumOpt = Some(15)).force.size === 16
+      dao.findMany(itemsPerPageOpt = Option(20), pageNumOpt = Some(18)).force.size === 0
     }
 
 

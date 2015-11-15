@@ -42,9 +42,9 @@ class Ships @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends Controller
     }
   }
 
-  def findShips(limit: Option[Int]) = Action.async {
+  def findShips(count: Option[Int] = None, page: Option[Int] = None) = Action.async {
 
-    findMany(limit = limit) map { ships =>
+    findMany(itemsPerPageOpt = count, pageNumOpt = page) map { ships =>
       Ok(Json.arr(ships))
     }
   }
