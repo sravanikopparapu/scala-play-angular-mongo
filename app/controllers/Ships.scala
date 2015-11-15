@@ -49,4 +49,14 @@ class Ships @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends Controller
     }
   }
 
+  def findShip(name: String) = Action.async {
+
+    findOne(name) map {
+      case Some(ship) =>
+        Ok(Json.toJson(ship))
+      case None =>
+        NotFound
+    }
+  }
+
 }
