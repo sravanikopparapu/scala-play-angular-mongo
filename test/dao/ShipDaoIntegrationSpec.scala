@@ -1,6 +1,6 @@
 package dao
 
-import models.{JsonFormats, Location, Ship}
+import models.{JsonFormats, Point, Ship}
 import org.junit.runner.RunWith
 import org.specs2.mutable._
 import org.specs2.runner.JUnitRunner
@@ -15,8 +15,8 @@ import scala.concurrent.Future
 @RunWith(classOf[JUnitRunner])
 class ShipDaoIntegrationSpec extends Specification {
 
-  val ship = Ship("ship1", 1, 2, 3, Location(0, 0))
-  val ship2 = Ship("ship2", 11, 12, 13, Location(10, 110))
+  val ship = Ship("ship1", 1, 2, 3, Point(0, 0))
+  val ship2 = Ship("ship2", 11, 12, 13, Point(5, 5))
 
   val app = FakeApplication()
   implicit val _ = testEnv(app)
@@ -50,8 +50,8 @@ class ShipDaoIntegrationSpec extends Specification {
     }
 
     "update a ship" in {
-      update(ship.copy(lastSeen = Location(1, 1))).run.force.ok === true
-      findOne(ship.name).run.force.get.lastSeen === Location(1, 1)
+      update(ship.copy(loc = Point(1, 1))).run.force.ok === true
+      findOne(ship.name).run.force.get.loc === Point(1, 1)
     }
 
     "fail to update non-existing ship" in {

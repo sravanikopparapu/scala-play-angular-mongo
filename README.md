@@ -24,7 +24,7 @@ clone the project, and execute from the project root:
 ![screenshot3](./screenshots/screen2.png)
 
 ## TODO:
-- Add geo index for ship locations
 - Add data verification
 - Make possible updating name (currently name is used as primary key for simplicity)
 - Make possible filtering the table by ship name, change ordering etc
+- find nearest ships

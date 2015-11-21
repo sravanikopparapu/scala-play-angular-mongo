@@ -2,7 +2,7 @@ package controllers
 
 import dao.ShipsDao
 import models.JsonFormats._
-import models.{Location, Ship}
+import models.{Point, Ship}
 import org.junit.runner.RunWith
 import org.specs2.mutable._
 import org.specs2.runner.JUnitRunner
@@ -17,8 +17,8 @@ class ShipRestIntegrationSpec extends Specification {
   sequential
   stopOnFail
 
-  val ship = Json.toJson(Ship("ship1", 1, 2, 3, Location(0, 0)))
-  val ship_update = Json.toJson(Ship("ship1", 11, 12, 13, Location(10, 110)))
+  val ship = Json.toJson(Ship("ship1", 1, 2, 3, Point(0, 0)))
+  val ship_update = Json.toJson(Ship("ship1", 11, 12, 13, Point(5, 5)))
 
   val dao = testEnv()
 

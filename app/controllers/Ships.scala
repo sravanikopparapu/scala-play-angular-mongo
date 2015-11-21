@@ -2,6 +2,7 @@ package controllers
 
 import javax.inject.{Inject, Singleton}
 
+import com.typesafe.scalalogging.slf4j.LazyLogging
 import env._
 import dao.ShipsDao
 import models.JsonFormats._
@@ -16,7 +17,7 @@ import scala.concurrent.Future
 import scala.util.control.NonFatal
 
 @Singleton
-class Ships @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends Controller with MongoController with ReactiveMongoComponents with Env {
+class Ships @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends Controller with MongoController with ReactiveMongoComponents with Env with LazyLogging {
 
   import ShipsDao._
 

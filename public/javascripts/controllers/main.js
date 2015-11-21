@@ -42,7 +42,7 @@ app.controller("MainController", ["NgTableParams", "$resource", "$http", "$scope
                             width: item.width,
                             length: item.length,
                             draft: item.draft,
-                            lastSeen: item.lastSeen
+                            loc: item.loc
                         }
                             :
                         {
@@ -51,7 +51,7 @@ app.controller("MainController", ["NgTableParams", "$resource", "$http", "$scope
                             width: 0,
                             length: 0,
                             draft: 0,
-                            lastSeen: {lat: 0, lon: 0}
+                            loc: {type: 'Point', coordinates: [0, 0]}
                         }
                     }
                 }
@@ -69,7 +69,7 @@ app.controller("MainController", ["NgTableParams", "$resource", "$http", "$scope
         };
 
         self.onCreate = function (item) {
-            $scope.resetAlerts();
+            self.resetAlerts();
 
             $http({
                 method: 'POST',

@@ -63,13 +63,13 @@
             <div class="col-md-5">
                 LAT <input id="lat" class="form-control" type='number' value=""
                            placeholder="lat"
-                           ng-model="newItem.lastSeen.lat" required>
+                           ng-model="newItem.loc.coordinates[0]" required>
             </div>
 
             <div class="col-md-5">
                 LON <input id="lon" class="form-control" type='number' value=""
                            placeholder="lon"
-                           ng-model="newItem.lastSeen.lon" required>
+                           ng-model="newItem.loc.coordinates[1]" required>
             </div>
         </div>
     </div>

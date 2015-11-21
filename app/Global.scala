@@ -20,6 +20,7 @@ object Global extends GlobalSettings with LazyLogging {
         override def reactiveMongoApi: ReactiveMongoApi = Application.instanceCache[ReactiveMongoApi].apply(app)
       }
 
+      logger.debug("Populating db with sample data")
       Try {
         val is = app.resourceAsStream("data/sample_data.json").get
         JsonFormats.parseSampleData(is)

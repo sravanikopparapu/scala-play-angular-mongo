@@ -2,7 +2,7 @@ package models
 
 import java.io.InputStream
 
-import play.api.libs.json.{DefaultReads, JsArray, JsObject}
+import play.api.libs.json.{DefaultReads, JsArray, JsObject, _}
 
 import scala.util.Try
 
@@ -10,16 +10,29 @@ case class Ship(name: String,
                 width: Double, //in meters
                 length: Double, //in meters
                 draft: Double, //in meters
-                lastSeen: Location
+                loc: Point
                )
 
-case class Location(lon: Double, lat: Double)
+case class Point(lon: Double, lat: Double)
 
 object JsonFormats extends DefaultReads {
 
   import play.api.libs.json.Json
 
-  implicit val locFormat = Json.format[Location]
+  implicit object PointWriter extends Writes[Point] {
+    def writes(point: Point): JsValue = Json.obj(
+      "type" -> "Point",
+      "coordinates" -> Seq(point.lat, point.lon))
+  }
+
+  implicit object PointReader extends Reads[Point] {
+    def reads(json: JsValue): JsResult[Point] = {
+      val coordinates = (json \ "coordinates").as[List[Double]]
+      val lon = coordinates(0)
+      val lat = coordinates(1)
+      JsSuccess(Point(lon, lat))
+    }
+  }
 
   implicit val shipFormat = Json.format[Ship]
 
@@ -33,9 +46,9 @@ object JsonFormats extends DefaultReads {
           width = v("WIDTH").as[String].toDouble,
           length = v("LENGTH").as[String].toDouble,
           draft = 0,
-          lastSeen = Location(
-            v("LAT").as[String].toDouble,
-            v("LON").as[String].toDouble
+          loc = Point(
+            lon = v("LON").as[String].toDouble,
+            lat = v("LAT").as[String].toDouble
           )
         )
       }.toOption

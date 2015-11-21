@@ -50,7 +50,7 @@
                         <td data-title="'Width'" >{{row.width}}</td>
                         <td data-title="'Length'" >{{row.length}}</td>
                         <td data-title="'Draft'">{{row.draft}}</td>
-                        <td data-title="'Location LAT:LON'">{{row.lastSeen.lat}} : {{row.lastSeen.lon}}</td>
+                        <td data-title="'Location LAT:LON'">{{row.loc.coordinates[0]}} : {{row.loc.coordinates[1]}}</td>
 
                         <td data-title="'Action'" class="col-sm-1 text-center">
                             <button class="btn btn-default btn-sm" ng-click="mc.editRow(true, row)"><span class="glyphicon glyphicon-pencil"></span></button>

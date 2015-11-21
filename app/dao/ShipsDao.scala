@@ -18,9 +18,12 @@ object ShipsDao {
   import models.JsonFormats._
 
   val Name = "name"
+  val Loc = "loc"
 
   val requiredIndexes = Seq(
-    Index(key = Seq(Name -> IndexType.Ascending), unique = true))
+    Index(key = Seq(Name -> IndexType.Ascending), unique = true),
+    Index(key = Seq(Loc -> IndexType.Geo2DSpherical))
+  )
 
   protected def hasName(name: String) = Json.obj(Name -> name)
 
