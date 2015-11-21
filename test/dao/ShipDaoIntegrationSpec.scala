@@ -4,10 +4,8 @@ import models.{JsonFormats, Location, Ship}
 import org.junit.runner.RunWith
 import org.specs2.mutable._
 import org.specs2.runner.JUnitRunner
-import play.api.inject.DefaultApplicationLifecycle
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.test.FakeApplication
-import play.modules.reactivemongo.{DefaultReactiveMongoApi, ReactiveMongoApi}
 import reactivemongo.core.errors.DatabaseException
 import utils.TestUtils._
 
@@ -21,53 +19,51 @@ class ShipDaoIntegrationSpec extends Specification {
   val ship2 = Ship("ship2", 11, 12, 13, Location(10, 110))
 
   val app = FakeApplication()
-
-  val dao = new ShipsDao {
-    override def reactiveMongoApi: ReactiveMongoApi = new DefaultReactiveMongoApi(app.actorSystem, app.configuration, new DefaultApplicationLifecycle)
-  }
-
+  implicit val _ = testEnv(app)
 
   sequential
   stopOnFail
 
+  import ShipsDao._
+
   "Ship Dao" should {
 
     step {
-      dao.removeAll().force
-      dao.ensure(ShipsDao.requiredIndexes).force
+      removeAll().in.force
+      ensure(ShipsDao.requiredIndexes).in.force
     }
 
     "find not existing ship" in {
-      dao.findOne(ship.name).force === None
+      findOne(ship.name).in.force === None
     }
 
     "create a ship" in {
-      dao.save(ship).force.ok === true
+      save(ship).in.force.ok === true
     }
 
     "find existing ship" in {
-      dao.findOne(ship.name).force.get === ship
+      findOne(ship.name).in.force.get === ship
     }
 
     "fail to create a ship with same name" in {
-      dao.save(ship).force must throwA[DatabaseException]
+      save(ship).in.force must throwA[DatabaseException]
     }
 
     "update a ship" in {
-      dao.update(ship.copy(lastSeen = Location(1, 1))).force.ok === true
-      dao.findOne(ship.name).force.get.lastSeen === Location(1, 1)
+      update(ship.copy(lastSeen = Location(1, 1))).in.force.ok === true
+      findOne(ship.name).in.force.get.lastSeen === Location(1, 1)
     }
 
     "fail to update non-existing ship" in {
-      dao.update(ship.copy(name = "wrongName")).force.n === 0
+      update(ship.copy(name = "wrongName")).in.force.n === 0
     }
 
     "delete ship" in {
-      dao.delete(ship.name).force.ok === true
+      delete(ship.name).in.force.ok === true
     }
 
     "delete non-existing ship" in {
-      dao.delete(ship.name).force.n === 0
+      delete(ship.name).in.force.n === 0
     }
 
     "parse and insert data" in {
@@ -75,16 +71,16 @@ class ShipDaoIntegrationSpec extends Specification {
 
       val ships = JsonFormats.parseSampleData(is)
       ships.length === 296
-      Future.sequence(ships.map(dao.save)).force
+      Future.sequence(ships.map(save(_).in)).force
       ok
     }
 
     "find all ships" in {
-      dao.findMany().force.size === 296
-      dao.findMany(itemsPerPageOpt = Option(20)).force.size === 20
-      dao.findMany(itemsPerPageOpt = Option(20), pageNumOpt = Some(1)).force.size === 20
-      dao.findMany(itemsPerPageOpt = Option(20), pageNumOpt = Some(15)).force.size === 16
-      dao.findMany(itemsPerPageOpt = Option(20), pageNumOpt = Some(18)).force.size === 0
+      findMany().in.force.size === 296
+      findMany(itemsPerPageOpt = Option(20)).in.force.size === 20
+      findMany(itemsPerPageOpt = Option(20), pageNumOpt = Some(1)).in.force.size === 20
+      findMany(itemsPerPageOpt = Option(20), pageNumOpt = Some(15)).in.force.size === 16
+      findMany(itemsPerPageOpt = Option(20), pageNumOpt = Some(18)).in.force.size === 0
     }
 
 
