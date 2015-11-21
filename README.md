@@ -15,13 +15,13 @@ clone the project, and execute from the project root:
 ### Screenshots
 
 #### Main window
-!(./screenshots/screen1.png)
+![screenshot1](./screenshots/screen1.png)
 
 #### Create a Ship
-!(./screenshots/screen3.png)
+![screenshot2](./screenshots/screen3.png)
 
 #### Update a Ship
-!(./screenshots/screen2.png)
+![screenshot3](./screenshots/screen2.png)
 
 ## TODO:
 - Add geo index for ship locations
