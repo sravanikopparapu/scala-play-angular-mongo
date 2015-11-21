@@ -2,7 +2,7 @@ package controllers
 
 import javax.inject.{Inject, Singleton}
 
-import conf._
+import env._
 import dao.ShipsDao
 import models.JsonFormats._
 import models._

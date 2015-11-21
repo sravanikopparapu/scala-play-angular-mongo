@@ -1,5 +1,5 @@
 import com.typesafe.scalalogging.slf4j.LazyLogging
-import conf._
+import env._
 import dao.ShipsDao
 import dao.ShipsDao._
 import models.JsonFormats

@@ -1,6 +1,6 @@
 package utils
 
-import conf.Env
+import env.Env
 import play.api.Application
 import play.api.inject.DefaultApplicationLifecycle
 import play.api.test.FakeApplication

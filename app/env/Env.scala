@@ -1,4 +1,4 @@
-package conf
+package env
 
 import play.modules.reactivemongo.ReactiveMongoComponents
 import play.modules.reactivemongo.json.collection.JSONCollection
@@ -15,9 +15,10 @@ object Env {
 
 }
 
-trait Env extends ReactiveMongoComponents {
+trait ShipDbEnv extends ReactiveMongoComponents {
   lazy val ships: JSONCollection = reactiveMongoApi.db.collection[JSONCollection]("ships")
 }
 
+trait Env extends ShipDbEnv
 
 
