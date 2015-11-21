@@ -14,7 +14,6 @@ resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
 libraryDependencies ++= Seq(
   "org.reactivemongo" %% "play2-reactivemongo" % "0.11.7.play24",
   "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2",
-  "org.scalaz" %% "scalaz-core" % "7.1.5",
   "org.webjars.bower" % "lodash" % "3.10.0",
   "org.webjars" % "bootstrap" % "3.1.1",
   "org.webjars" % "angularjs" % "1.4.7",

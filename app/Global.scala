@@ -1,6 +1,7 @@
 import com.typesafe.scalalogging.slf4j.LazyLogging
+import conf._
+import dao.ShipsDao
 import dao.ShipsDao._
-import dao.{Env, ShipsDao}
 import models.JsonFormats
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.{Application, GlobalSettings, Mode}
@@ -23,9 +24,9 @@ object Global extends GlobalSettings with LazyLogging {
         val is = app.resourceAsStream("data/sample_data.json").get
         JsonFormats.parseSampleData(is)
       } map { ships =>
-        for {_ <- removeAll().in
-             _ <- ensure(ShipsDao.requiredIndexes).in
-        } yield Future.sequence(ships.map(save(_).in))
+        for {_ <- removeAll().run
+             _ <- ensure(ShipsDao.requiredIndexes).run
+        } yield Future.sequence(ships.map(save(_).run))
       } recover {
         case NonFatal(ex) =>
           logger.error(ex.getMessage)

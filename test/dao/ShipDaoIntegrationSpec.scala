@@ -29,41 +29,41 @@ class ShipDaoIntegrationSpec extends Specification {
   "Ship Dao" should {
 
     step {
-      removeAll().in.force
-      ensure(ShipsDao.requiredIndexes).in.force
+      removeAll().run.force
+      ensure(ShipsDao.requiredIndexes).run.force
     }
 
     "find not existing ship" in {
-      findOne(ship.name).in.force === None
+      findOne(ship.name).run.force === None
     }
 
     "create a ship" in {
-      save(ship).in.force.ok === true
+      save(ship).run.force.ok === true
     }
 
     "find existing ship" in {
-      findOne(ship.name).in.force.get === ship
+      findOne(ship.name).run.force.get === ship
     }
 
     "fail to create a ship with same name" in {
-      save(ship).in.force must throwA[DatabaseException]
+      save(ship).run.force must throwA[DatabaseException]
     }
 
     "update a ship" in {
-      update(ship.copy(lastSeen = Location(1, 1))).in.force.ok === true
-      findOne(ship.name).in.force.get.lastSeen === Location(1, 1)
+      update(ship.copy(lastSeen = Location(1, 1))).run.force.ok === true
+      findOne(ship.name).run.force.get.lastSeen === Location(1, 1)
     }
 
     "fail to update non-existing ship" in {
-      update(ship.copy(name = "wrongName")).in.force.n === 0
+      update(ship.copy(name = "wrongName")).run.force.n === 0
     }
 
     "delete ship" in {
-      delete(ship.name).in.force.ok === true
+      delete(ship.name).run.force.ok === true
     }
 
     "delete non-existing ship" in {
-      delete(ship.name).in.force.n === 0
+      delete(ship.name).run.force.n === 0
     }
 
     "parse and insert data" in {
@@ -71,16 +71,16 @@ class ShipDaoIntegrationSpec extends Specification {
 
       val ships = JsonFormats.parseSampleData(is)
       ships.length === 296
-      Future.sequence(ships.map(save(_).in)).force
+      Future.sequence(ships.map(save(_).run)).force
       ok
     }
 
     "find all ships" in {
-      findMany().in.force.size === 296
-      findMany(itemsPerPageOpt = Option(20)).in.force.size === 20
-      findMany(itemsPerPageOpt = Option(20), pageNumOpt = Some(1)).in.force.size === 20
-      findMany(itemsPerPageOpt = Option(20), pageNumOpt = Some(15)).in.force.size === 16
-      findMany(itemsPerPageOpt = Option(20), pageNumOpt = Some(18)).in.force.size === 0
+      findMany().run.force.size === 296
+      findMany(itemsPerPageOpt = Option(20)).run.force.size === 20
+      findMany(itemsPerPageOpt = Option(20), pageNumOpt = Some(1)).run.force.size === 20
+      findMany(itemsPerPageOpt = Option(20), pageNumOpt = Some(15)).run.force.size === 16
+      findMany(itemsPerPageOpt = Option(20), pageNumOpt = Some(18)).run.force.size === 0
     }
 
 
