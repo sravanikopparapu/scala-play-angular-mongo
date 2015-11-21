@@ -1,6 +1,7 @@
 ### Ship Locator
 
 The project is an exercise of using Play2/Scala/ReactiveMongo/AngularJs/Bootstrap
+
 DI is done using reader+cake patterns
 
 #### To run:
@@ -14,13 +15,13 @@ clone the project, and execute from the project root:
 ### Screenshots
 
 #### Main window
-(./screenshots/screen1.png)
+!(./screenshots/screen1.png)
 
 #### Create a Ship
-(./screenshots/screen3.png)
+!(./screenshots/screen3.png)
 
 #### Update a Ship
-(./screenshots/screen2.png)
+!(./screenshots/screen2.png)
 
 ## TODO:
 - Add geo index for ship locations
